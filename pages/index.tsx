@@ -23,23 +23,14 @@ import {
   FormHelperText,
 } from '@chakra-ui/react'
 
+const colorsNotAllowed = ['transparent', 'current', 'white', 'whiteAlpha']
+
 export default function IndexPage() {
   const graphContainer = useRef<HTMLDivElement>(null)
   const [width] = useDimensions(graphContainer)
   const [graphTitle, setGraphTitle] = useState('')
   const [graphConfig, setGraphConfig] = useState<GraphConfig>({ columns: [], type: 'Line' })
-  const [markdown, setMarkdown] = useState(`
-| File                              | average run time (ms) | total time (ms) | increase  |
-| --------------------------------- | --------------------- | --------------- | --------- |
-| impure-no-loop.js                 | 0.000322              | 322             | 0         |
-| impure-no-loop-bp-dyn-str.js      | 0.000369              | 369             | +14.596%  |
-| impure-no-loop-bp-for-of-loop.js  | 0.00081               | 810             | +151.553% |
-| impure-no-loop-bp-foreach-loop.js | 0.000846              | 846             | +162.732% |
-| impure-resp-for-in-loop.js        | 0.001159              | 1159            | +259.937% |
-| pure-for-in-loop.js               | 0.00243               | 2438            | +657.142% |
-| impure-resp-obj-entries-loop.js   | 0.00309               | 3090            | +859.627% |
-| pure-obj-entries-loop.js          | 0.003849              | 3849            | +1095.34% |
-`)
+  const [markdown, setMarkdown] = useState('')
 
   const data = useMemo(() => inputHandler(markdown), [markdown])
   const [columnNames, ...multiSelectOptions] = data.columns.map((column, index) => ({
@@ -48,7 +39,6 @@ export default function IndexPage() {
     text: column,
   }))
 
-  const colorsNotAllowed = ['transparent', 'current', 'white', 'whiteAlpha']
   const colorsOptions = useMemo(
     () =>
       Object.entries(theme.colors)
@@ -58,7 +48,7 @@ export default function IndexPage() {
           value: key,
           text: key,
         })),
-    [theme.colors]
+    []
   )
 
   const graphTypeOptions = useMemo(
@@ -68,7 +58,7 @@ export default function IndexPage() {
         value: type,
         text: type,
       })),
-    [GRAPH_TYPES]
+    []
   )
 
   return (

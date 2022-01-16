@@ -112,13 +112,13 @@ export function MultiSelect({
     if (state && state !== internalChoices) {
       setInternalChoices(state)
     }
-  }, [state])
+  }, [state, internalChoices])
 
   useEffect(() => {
     if (internalOptions.length === 0 && showOptions) {
       setShowOptions(false)
     }
-  }, [internalOptions])
+  }, [internalOptions, showOptions])
 
   function handleLocalChange(event: React.ChangeEvent<any>) {
     setTextValue(event.target.value)
@@ -270,10 +270,18 @@ export function MultiSelect({
                   role='button'
                   onKeyDown={(event) => keyValidation(event) && handleLocalOptionClick(option)}
                 >
-                  {withIcon && <Image src={option.iconUrl} width='20px' mr={2} />}
+                  {withIcon && <Image alt='option icon' src={option.iconUrl} width='20px' mr={2} />}
                   <Text>{option.text}</Text>
                   {internalChoices.includes(option.value) && (
-                    <Icon as={CheckIcon as any} color='green.500' pos='absolute' top='8px' right='10%' boxSize='22px' />
+                    <Icon
+                      as={CheckIcon as any}
+                      alt='valid'
+                      color='green.500'
+                      pos='absolute'
+                      top='8px'
+                      right='10%'
+                      boxSize='22px'
+                    />
                   )}
                 </Box>
               ))}
